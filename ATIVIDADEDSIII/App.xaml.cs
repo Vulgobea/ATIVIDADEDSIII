@@ -1,4 +1,5 @@
 ﻿using ATIVIDADEDSIII.Helpers;
+using System.Globalization;
 
 namespace ATIVIDADEDSIII
 {
@@ -24,6 +25,8 @@ namespace ATIVIDADEDSIII
         public App()
         {
             InitializeComponent();
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
 
             //MainPage = new AppShell();
             MainPage = new NavigationPage (new Views.ListaProduto());
