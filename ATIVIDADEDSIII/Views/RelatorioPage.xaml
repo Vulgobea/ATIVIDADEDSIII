@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ATIVIDADEDSIII.Views.RelatorioPage"
+             Title="Gastos por Categoria">
+    <ListView x:Name="lst_gastos_categoria">
+        <ListView.Header>
+            <Grid ColumnDefinitions="*, *" Padding="10" BackgroundColor="{StaticResource Gray100}">
+                <Label Grid.Column="0" Text="Categoria" FontAttributes="Bold" />
+                <Label Grid.Column="1" Text="Total Gasto" FontAttributes="Bold" HorizontalTextAlignment="End" />
+            </Grid>
+        </ListView.Header>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid ColumnDefinitions="*, *" Padding="10">
+                        <Label Grid.Column="0" Text="{Binding Categoria}" VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="{Binding TotalGasto, StringFormat='{0:C}'}" VerticalOptions="Center" HorizontalTextAlignment="End" FontAttributes="Bold"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

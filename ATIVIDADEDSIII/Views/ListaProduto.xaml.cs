@@ -23,6 +23,9 @@ public partial class ListaProduto : ContentPage
             List<Produto> tmp = await App.Db.GetAll();
 
             tmp.ForEach(i => lista.Add(i));
+
+            var categorias = tmp.Select(p => p.Categoria).Distinct().ToList();
+            picker_categoria.ItemsSource = categorias;
         }
         catch (Exception ex)
         {
@@ -133,6 +136,49 @@ public partial class ListaProduto : ContentPage
         finally
         {
             lst_produtos.IsRefreshing = false;
+        }
+    }
+    private async void picker_categoria_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            var categoria_selecionada = picker_categoria.SelectedItem as string;
+
+            // Se o usuário não selecionou nada, não fazemos nada.
+            if (string.IsNullOrEmpty(categoria_selecionada))
+                return;
+
+            // Limpamos a lista visual
+            lista.Clear();
+
+            // Usamos nosso NOVO método do App.Db para buscar só os produtos da categoria
+            List<Produto> produtos_filtrados = await App.Db.GetByCategoryAsync(categoria_selecionada);
+
+            // Adicionamos os produtos filtrados na lista para que apareçam na tela
+            produtos_filtrados.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        }
+    }
+    private async void Button_Limpar_Filtro_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            // Limpamos a seleção do picker
+            picker_categoria.SelectedItem = null;
+
+            // Limpamos a lista visual
+            lista.Clear();
+
+            // Recarregamos TODOS os produtos, como no OnAppearing
+            List<Produto> tmp = await App.Db.GetAll();
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
         }
     }
 }
